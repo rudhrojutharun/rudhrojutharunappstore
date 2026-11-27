@@ -6,7 +6,7 @@ A Chrome extension (Manifest V3) that lets you route audio from individual brows
 
 ## Use Cases
 
-* **Multi-Screen Home Setup (Monitor + TV):** Listen to online classes or lectures on a monitor tab through **pTron TWS / headphones**, while playing kids' videos or music on a **TV (HDMI / NVIDIA High Definition Audio)** from another Chrome tab.
+* **Multi-Screen Home Setup (Monitor + TV):** Listen to online classes or lectures on a monitor tab through **Audio device 1**, while playing kids' videos or music on a **TV (HDMI / NVIDIA High Definition Audio) or Audio device 2** from another Chrome tab.
 * **Calls & Notifications vs. Media:** Keep background videos or music on one output device while routing a specific tab's audio to a headset or speaker.
 * **Testing & Productivity:** Preview media or web audio on a specific speaker or headset without changing Windows' global default output device every time.
 
@@ -30,7 +30,7 @@ Standard websites and HTML5 media players generally play through Windows' defaul
 3. Click **Load unpacked** and select your `tab-audio-router` project folder.
 
 ### Step 2: Unlock Audio Output Device Names (Important First-Time Step)
-Chrome hides or anonymizes full audio device labels (such as `Headphones (PTRON TWS)` or `Mi TV (NVIDIA High Definition Audio)`) until microphone permission is granted to the extension. Because small extension popups can close or block permission prompts, this extension uses a dedicated setup page:
+Chrome hides or anonymizes full audio device labels (such as `Headphones (JBL Ear buds)` or `Mi TV (NVIDIA High Definition Audio)`) until microphone permission is granted to the extension. Because small extension popups can close or block permission prompts, this extension uses a dedicated setup page:
 
 1. Click the **Tab Audio Router** extension icon in the Chrome toolbar.
 2. If you see **"Device names locked"** or generic labels like `Audio Output 1`, click **Click here to allow access** to open `permissions.html` in a normal tab.
