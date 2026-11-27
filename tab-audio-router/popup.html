@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      :root {
+        --bg: #0f172a;
+        --card: #1e293b;
+        --border: #334155;
+        --text: #f8fafc;
+        --muted: #94a3b8;
+        --primary: #3b82f6;
+        --active-green: #10b981;
+        --active-bg: rgba(16, 185, 129, 0.14);
+        --active-border: rgba(16, 185, 129, 0.45);
+        --danger-bg: rgba(239, 68, 68, 0.12);
+        --danger-border: rgba(239, 68, 68, 0.35);
+        --danger-text: #fca5a5;
+      }
+
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+        width: 330px;
+        background: var(--bg);
+        color: var(--text);
+        padding: 16px;
+      }
+
+      .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 12px;
+      }
+
+      h3 {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+
+      .state-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 600;
+        padding: 3px 9px;
+        border-radius: 999px;
+        background: rgba(148, 163, 184, 0.14);
+        color: var(--muted);
+        border: 1px solid rgba(148, 163, 184, 0.25);
+      }
+
+      .state-pill.active {
+        background: var(--active-bg);
+        color: #6ee7b7;
+        border-color: var(--active-border);
+      }
+
+      .dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: var(--muted);
+      }
+
+      .state-pill.active .dot {
+        background: var(--active-green);
+        box-shadow: 0 0 8px var(--active-green);
+      }
+
+      .active-banner {
+        display: none;
+        margin-bottom: 12px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        background: var(--active-bg);
+        border: 1px solid var(--active-border);
+        font-size: 12px;
+        line-height: 1.4;
+      }
+
+      .active-banner.visible {
+        display: block;
+      }
+
+      .active-banner-title {
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: #6ee7b7;
+        margin-bottom: 2px;
+      }
+
+      .active-device-name {
+        font-weight: 600;
+        color: #ecfdf5;
+      }
+
+      .section-label {
+        display: block;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        color: var(--muted);
+        margin-bottom: 6px;
+      }
+
+      .select-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 0 12px;
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+      }
+
+      .select-wrapper.routed {
+        border-color: var(--active-border);
+        background: rgba(16, 185, 129, 0.08);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.14);
+      }
+
+      .select-wrapper:focus-within {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+      }
+
+      .speaker-icon {
+        width: 18px;
+        height: 18px;
+        color: #60a5fa;
+        flex-shrink: 0;
+        margin-right: 8px;
+      }
+
+      .select-wrapper.routed .speaker-icon {
+        color: #34d399;
+      }
+
+      select {
+        width: 100%;
+        background: transparent;
+        color: var(--text);
+        border: none;
+        outline: none;
+        padding: 11px 22px 11px 0;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        appearance: none;
+      }
+
+      select option {
+        background: #1e293b;
+        color: #f8fafc;
+      }
+
+      .chevron-icon {
+        position: absolute;
+        right: 12px;
+        width: 14px;
+        height: 14px;
+        color: var(--muted);
+        pointer-events: none;
+      }
+
+      .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      button {
+        width: 100%;
+        padding: 10px 14px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.1s ease, background 0.2s ease, opacity 0.2s ease;
+      }
+
+      button:active {
+        transform: scale(0.985);
+      }
+
+      #routeBtn {
+        background: linear-gradient(135deg, #3b82f6, #2563eb);
+        color: #ffffff;
+        border: none;
+        box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+      }
+
+      #routeBtn:hover {
+        background: linear-gradient(135deg, #60a5fa, #3b82f6);
+      }
+
+      #stopBtn {
+        background: var(--danger-bg);
+        color: var(--danger-text);
+        border: 1px solid var(--danger-border);
+      }
+
+      #stopBtn:hover:not(:disabled) {
+        background: rgba(239, 68, 68, 0.22);
+      }
+
+      #stopBtn:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      #status {
+        margin-top: 12px;
+        min-height: 18px;
+        font-size: 12px;
+        line-height: 1.4;
+        color: #cbd5e1;
+        background: rgba(30, 41, 59, 0.6);
+        border-radius: 10px;
+        padding: 8px 10px;
+        border: 1px solid rgba(51, 65, 85, 0.6);
+      }
+
+      #status:empty {
+        display: none;
+      }
+
+      #status a {
+        color: #60a5fa;
+        text-decoration: underline;
+      }
+
+      .footer {
+        margin-top: 14px;
+        padding-top: 10px;
+        border-top: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 11px;
+        color: var(--muted);
+      }
+
+      .brand {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+        color: #93c5fd;
+        font-weight: 600;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <h3>Tab Audio Router</h3>
+      <span id="statePill" class="state-pill">
+        <span class="dot"></span>
+        <span id="stateText">Default Output</span>
+      </span>
+    </div>
+
+    <div id="activeBanner" class="active-banner">
+      <div class="active-banner-title">Currently Routing To</div>
+      <div id="activeDeviceName" class="active-device-name"></div>
+    </div>
+
+    <label class="section-label" for="deviceSelect">Output Device</label>
+    <div id="selectWrapper" class="select-wrapper">
+      <svg class="speaker-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+        <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+      </svg>
+
+      <select id="deviceSelect"></select>
+
+      <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="6 9 12 15 18 9"></polyline>
+      </svg>
+    </div>
+
+    <div class="actions">
+      <button id="routeBtn">Route Active Tab</button>
+      <button id="stopBtn" disabled>Stop Routing Active Tab</button>
+    </div>
+
+    <div id="status"></div>
+
+    <div class="footer">
+      <span>v2.1 • Live Status</span>
+      <span class="brand">rudhrojutharun@github</span>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

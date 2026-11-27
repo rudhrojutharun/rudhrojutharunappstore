@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Tab Audio Output Router",
+  "version": "2.0.0",
+  "description": "Route audio from individual Chrome tabs to specific output devices.",
+  "permissions": [
+    "tabs",
+    "tabCapture",
+    "offscreen",
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Route Tab Audio"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}
